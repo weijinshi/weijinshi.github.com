@@ -1,0 +1,426 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Mongodb学习笔记（一）：基本概念 | wjs的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wei Jinshi">
+    
+    <meta name="description" content="老早就想系统地学一下mongodb，结果一直拖到现在，终于开始看《MongoDB权威指南中文版》，今天才看了第二章，稍微记一下。
+几个重要的概念
+
+文档 （相当于row），类似json的键值对，区分类型和大小写（不一样的类型或大小写算不同的文档），不能有重复键
+集合 （相当于没有schema的表），">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="wjs的博客" title="wjs的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wjs的博客">wjs的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:weijinshi.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/24/mongodb-learning-01/" title="Mongodb学习笔记（一）：基本概念" itemprop="url">Mongodb学习笔记（一）：基本概念</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://weijinshi.github.io" title="Wei Jinshi">Wei Jinshi</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-08-23T16:00:00.000Z" itemprop="datePublished">Aug 24 2014</time>
+    Updated:<time datetime="2014-12-11T16:01:46.000Z" itemprop="dateModified">Dec 12 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#几个重要的概念"><span class="toc-number">1.</span> <span class="toc-text">几个重要的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用mongodb_shell"><span class="toc-number">2.</span> <span class="toc-text">使用mongodb shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-number">3.</span> <span class="toc-text">数据类型</span></a></li></ol>
+		</div>
+		
+		<p>老早就想系统地学一下mongodb，结果一直拖到现在，终于开始看《MongoDB权威指南中文版》，今天才看了第二章，稍微记一下。</p>
+<h3 id="几个重要的概念">几个重要的概念</h3>
+<ul>
+<li>文档 （相当于row），类似json的键值对，区分类型和大小写（不一样的类型或大小写算不同的文档），不能有重复键</li>
+<li>集合 （相当于没有schema的表），命名规则（4个不能）</li>
+<li>子集合 （命名空间的概念）</li>
+<li>数据库 （命名规则）</li>
+</ul>
+<h3 id="使用mongodb_shell">使用mongodb shell</h3>
+<p>由于使用ubuntu安装的mongodb，安装好之后mongodb的服务默认是启动了的（手动安装的得执行 <code>./mongod</code> 来启动service，查看服务是否开启： <a href="localhost:28017" target="_blank" rel="external">localhost:28017</a>），打开mongodb shell直接敲 <code>mongo</code> 即可。</p>
+<p>mongodb shell是一个JavaScript shell，由于js中只有64位浮点数，因此在用mongodb shell处理数字相关的文档时候要注意。<br>一般操作（CRUD）</p>
+<ul>
+<li>db.blog.insert(doc)</li>
+<li>db.blog.find() / db.blog.findOne()</li>
+<li>db.blog.update({title : ‘aaa’}, newDoc)</li>
+<li>db.blog.remove({title : ‘aaa’})</li>
+</ul>
+<p>忘记命令可以使用 <code>help</code> 来查看</p>
+<h3 id="数据类型">数据类型</h3>
+<p>mongodb的文档类似json，但是json仅包含6中数据类型(null, bool, number, string, array, object)，没有日期类型，只有一种数字类型，无法区分整型和浮点数。<br>mongodb支持的数据结构：</p>
+<ul>
+<li>null</li>
+<li>bool</li>
+<li>32 int</li>
+<li>64 int</li>
+<li>double</li>
+<li>string</li>
+<li>符号</li>
+<li>ObjectId</li>
+<li>Date</li>
+<li>正则表达式</li>
+<li>代码（function）</li>
+<li>二进制数据</li>
+<li>MAX</li>
+<li>MIN</li>
+<li>array</li>
+<li>内嵌文档</li>
+</ul>
+<p>重点看： 数字，日期，数组，内嵌文档，ObjectId  </p>
+<hr>
+<p>2014-09-06 update：<br>ubuntu下的安装，直接使用压缩包的方式，解压到 /opt/mongodb，然后新建 /data/db 并赋予读写权限，最后在 ～.bashrc 里面添加 path。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mongodb/">mongodb</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/mongodb/">mongodb</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://weijinshi.github.io/2014/08/24/mongodb-learning-01/" data-title="Mongodb学习笔记（一）：基本概念 | wjs的博客" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/24/ubuntu-sublime-install/" title="Ubuntu安装Sublime Text 3以及中文输入支持">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Ubuntu安装Sublime Text 3以及中文输入支持</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/22/helloworld/"  title="Hello World">
+ <strong>NEXT:</strong><br/> 
+ <span>Hello World
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#几个重要的概念"><span class="toc-number">1.</span> <span class="toc-text">几个重要的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用mongodb_shell"><span class="toc-number">2.</span> <span class="toc-text">使用mongodb shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-number">3.</span> <span class="toc-text">数据类型</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="android">android<sup>1</sup></a></li>
+		
+			<li><a href="/categories/jekyll/" title="jekyll">jekyll<sup>2</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>3</sup></a></li>
+		
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/categories/memcache/" title="memcache">memcache<sup>3</sup></a></li>
+		
+			<li><a href="/categories/mongodb/" title="mongodb">mongodb<sup>5</sup></a></li>
+		
+			<li><a href="/categories/others/" title="others">others<sup>1</sup></a></li>
+		
+			<li><a href="/categories/php/" title="php">php<sup>1</sup></a></li>
+		
+			<li><a href="/categories/ubuntu/" title="ubuntu">ubuntu<sup>5</sup></a></li>
+		
+			<li><a href="/categories/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/categories/vim/" title="vim">vim<sup>1</sup></a></li>
+		
+			<li><a href="/categories/vps/" title="vps">vps<sup>1</sup></a></li>
+		
+			<li><a href="/categories/web/" title="web">web<sup>3</sup></a></li>
+		
+			<li><a href="/categories/正则/" title="正则">正则<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CDN/" title="CDN">CDN<sup>1</sup></a></li>
+		
+			<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arch/" title="arch">arch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/dropbox/" title="dropbox">dropbox<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/interview/" title="interview">interview<sup>2</sup></a></li>
+		
+			<li><a href="/tags/jekyll/" title="jekyll">jekyll<sup>3</sup></a></li>
+		
+			<li><a href="/tags/js/" title="js">js<sup>3</sup></a></li>
+		
+			<li><a href="/tags/jsonp/" title="jsonp">jsonp<sup>1</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+			<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/tags/memcache/" title="memcache">memcache<sup>3</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>5</sup></a></li>
+		
+			<li><a href="/tags/others/" title="others">others<sup>1</sup></a></li>
+		
+			<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ruby/" title="ruby">ruby<sup>1</sup></a></li>
+		
+			<li><a href="/tags/sublime/" title="sublime">sublime<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>9</sup></a></li>
+		
+			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vim/" title="vim">vim<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://weijinshi.github.io" target="_blank" title="Wei Jinshi">Wei Jinshi</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>

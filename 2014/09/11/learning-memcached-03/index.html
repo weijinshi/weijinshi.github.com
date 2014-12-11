@@ -1,0 +1,449 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Memcache 学习笔记（三）：ubuntu 14.04 + php 下使用 memcached | wjs的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wei Jinshi">
+    
+    <meta name="description" content="虽然关于 memcached 的书还没看完，但是还是想通过一些小例子来体验一下。而且书中关于 memcached API 都是用的 perl 或者 C# 来介绍的，perl 我还没时间学，C# 不想用 = =，于是搜了一下其他语言的使用，发现 digitalocean 的社区里面有个教程：How T">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="wjs的博客" title="wjs的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wjs的博客">wjs的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:weijinshi.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/11/learning-memcached-03/" title="Memcache 学习笔记（三）：ubuntu 14.04 + php 下使用 memcached" itemprop="url">Memcache 学习笔记（三）：ubuntu 14.04 + php 下使用 memcached</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://weijinshi.github.io" title="Wei Jinshi">Wei Jinshi</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-10T16:00:00.000Z" itemprop="datePublished">Sep 11 2014</time>
+    Updated:<time datetime="2014-12-11T16:01:46.000Z" itemprop="dateModified">Dec 12 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装_memcached_以及_它对应的php扩展模块"><span class="toc-number">1.</span> <span class="toc-text">安装 memcached 以及 它对应的php扩展模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检查安装是否成功"><span class="toc-number">2.</span> <span class="toc-text">检查安装是否成功</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试_memcached_是否可以缓存数据"><span class="toc-number">3.</span> <span class="toc-text">测试 memcached 是否可以缓存数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试_memcached_能否缓存数据库中得到的数据"><span class="toc-number">4.</span> <span class="toc-text">测试 memcached 能否缓存数据库中得到的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
+		</div>
+		
+		<p>虽然关于 memcached 的书还没看完，但是还是想通过一些小例子来体验一下。而且书中关于 memcached API 都是用的 perl 或者 C# 来介绍的，perl 我还没时间学，C# 不想用 = =，于是搜了一下其他语言的使用，发现 digitalocean 的社区里面有个教程：<br><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-memcache-on-ubuntu-14-04" target="_blank" rel="external">How To Install and Use Memcache on Ubuntu 14.04</a><br>里面介绍得很详细，英文没那么差的话推荐点上面的链接去看原文。</p>
+<h3 id="安装_memcached_以及_它对应的php扩展模块">安装 memcached 以及 它对应的php扩展模块</h3>
+<pre><code>sudo apt-get <span class="operator"><span class="keyword">update</span>
+sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> mysql-<span class="keyword">server</span> php5-mysql php5 php5-memcached memcached</span>
+</code></pre><p>我的 ubuntu 之前配好了 LAMP 环境的，所以我直接安装 <code>php5-memcached memcached</code> 这两个就够了。<br>注意：其实是有 <code>php5-memcache</code> 和 <code>php5-memcached</code> 两个不同的扩展模块的，后者是比较稳定而且实现了更多 feature，所以这里使用了后者。<br>安装好之后需要重启 apache service。  </p>
+<h3 id="检查安装是否成功">检查安装是否成功</h3>
+<pre><code>sudo vim <span class="regexp">/var/</span>www<span class="regexp">/html/i</span>nfo.php
+</code></pre><p>基本配置 php 环境的时候都回用这个来检查是否安装成功，以及php扩展是否安装成功。info.php 里面写：</p>
+<pre><code><span class="php"><span class="preprocessor">&lt;?php</span>
+phpinfo();
+<span class="preprocessor">?&gt;</span></span>
+</code></pre><p>Esc, :wq 保存退出之后打开浏览器访问该页面。<a href="http://server_domain_name_or_IP/info.php" target="_blank" rel="external">http://server_domain_name_or_IP/info.php</a><br>我是在本机弄的，所以直接访问  localhost/info.php<br>在页面中搜索 memcached 字样，查看扩展是否安装成功。  </p>
+<p>使用命令 <code>ps aux | grep memcached</code> 来查看 memcached 是否运行，使用 <code>sudo service memcached start | stop | restart</code> 来开启|关闭|重启 memcached 服务。  </p>
+<h3 id="测试_memcached_是否可以缓存数据">测试 memcached 是否可以缓存数据</h3>
+<p>打开终端 <code>sudo vim /var/www/html/cache_test.php</code>，然后输入下面的内容，保存。</p>
+<pre><code>&lt;?php
+    $mem = new <span class="type">Memcached</span>();
+    $mem-&gt;addServer(<span class="string">"127.0.0.1"</span>, <span class="number">11211</span>);
+
+    $<span class="literal">result</span> = $mem-&gt;get(<span class="string">"blah"</span>);
+
+    <span class="keyword">if</span> ($<span class="literal">result</span>) {
+        echo $<span class="literal">result</span>;
+    } <span class="keyword">else</span> {
+        echo <span class="string">"No matching key found.  I'll add that now!"</span>;
+        $mem-&gt;<span class="type">set</span>(<span class="string">"blah"</span>, <span class="string">"I am data!  I am held in memcached!"</span>) <span class="keyword">or</span> die(<span class="string">"Couldn't save anything to memcached..."</span>);
+    }
+?&gt;
+</code></pre><p>逻辑很简单，new 出一个 memcached 实例，然后添加本地 memcached server，就可以用 get 方法从本地 memcached server 中取值，如果有值则 echo 出值。如果没有，则 echo 错误信息，并把一个值 cache 进本地的 memcached server 中。<br>这样的效果是，第一次访问页面的时候，memcached server 中没有 key 是 blah 的键值对，页面出现 “No matching key found.  I’ll add that now!”。 而当第二次访问页面的时候，就可以看到 “I am data!  I am held in memcached!”  </p>
+<h3 id="测试_memcached_能否缓存数据库中得到的数据">测试 memcached 能否缓存数据库中得到的数据</h3>
+<p>首先先在 mysql 中添加简单的数据。  </p>
+<pre><code><span class="title">mysql</span> -u root -p
+</code></pre><p>再建一个数据库。  </p>
+<pre><code><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> mem_test;</span>
+<span class="operator"><span class="keyword">USE</span> mem_test;</span>
+</code></pre><p>再创建一个用户叫 test， 密码是 testing123，并给他赋予 mem_test 数据库权限。  </p>
+<pre><code><span class="operator"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">ON</span> mem_test.* <span class="keyword">TO</span> test@localhost <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'testing123'</span>;</span>
+</code></pre><p>创建表并添加数据。  </p>
+<pre><code><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> sample_data (id <span class="built_in">int</span>, name <span class="built_in">varchar</span>(<span class="number">30</span>));</span>
+<span class="operator"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> sample_data <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">"some_data"</span>);</span>
+</code></pre><p>退出mysql后，再创建一个 php 页面来进行测试。</p>
+<pre><code>sudo vim <span class="regexp">/var/</span>www<span class="regexp">/html/</span>database_test.php
+</code></pre><p>内容如下：  </p>
+<pre><code>&lt;?php
+$mem = new <span class="type">Memcached</span>();
+$mem-&gt;addServer(<span class="string">"127.0.0.1"</span>, <span class="number">11211</span>);
+
+mysql_connect(<span class="string">"localhost"</span>, <span class="string">"test"</span>, <span class="string">"testing123"</span>) <span class="keyword">or</span> die(mysql_error());
+mysql_select_db(<span class="string">"mem_test"</span>) <span class="keyword">or</span> die(mysql_error());
+
+$query = <span class="string">"SELECT name FROM sample_data WHERE id = 1"</span>;
+$querykey = <span class="string">"KEY"</span> . md5($query);
+
+$<span class="literal">result</span> = $mem-&gt;get($querykey);
+
+<span class="keyword">if</span> ($<span class="literal">result</span>) {
+    print <span class="string">"&lt;p&gt;Data was: "</span> . $<span class="literal">result</span>[<span class="number">0</span>] . <span class="string">"&lt;/p&gt;"</span>;
+    print <span class="string">"&lt;p&gt;Caching success!&lt;/p&gt;&lt;p&gt;Retrieved data from memcached!&lt;/p&gt;"</span>;
+} <span class="keyword">else</span> {
+    $<span class="literal">result</span> = mysql_fetch_array(mysql_query($query)) <span class="keyword">or</span> die(mysql_error());
+    $mem-&gt;<span class="type">set</span>($querykey, $<span class="literal">result</span>, <span class="number">10</span>);
+    print <span class="string">"&lt;p&gt;Data was: "</span> . $<span class="literal">result</span>[<span class="number">0</span>] . <span class="string">"&lt;/p&gt;"</span>;
+    print <span class="string">"&lt;p&gt;Data not found in memcached.&lt;/p&gt;&lt;p&gt;Data retrieved from MySQL and stored in memcached for next time.&lt;/p&gt;"</span>;
+}
+?&gt;
+</code></pre><p>也是非常简单，这里直接把 $query 语句 md5 之后再拼接一个 KEY 作为 memcached 的 key，首次 get 里面没有值，回进入 else 里面，然后从数据库中取数据，再调用 set 方法把数据库中的值放到 memcached 中。这里设置了 10 秒钟过期，因此效果是：第一次访问，没有cache，从数据库中取数据。之后的10秒内刷新界面，返回的数据都是 cache 中拿到的，10秒之后 cache 中的数据过期，又从新进入 else ，到数据库中取数据。</p>
+<h3 id="结论">结论</h3>
+<p>这两个例子虽然很小，但是对初步了解 memcached 还是很有帮助的。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/memcache/">memcache</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/memcache/">memcache</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://weijinshi.github.io/2014/09/11/learning-memcached-03/" data-title="Memcache 学习笔记（三）：ubuntu 14.04 + php 下使用 memcached | wjs的博客" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/17/use-cdn-for-webapp/" title="CND加速页面加载">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  CND加速页面加载</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/09/11/learning-memcached-02/"  title="Memcache 学习笔记（二）：telnet 操作 memcached 中的数据">
+ <strong>NEXT:</strong><br/> 
+ <span>Memcache 学习笔记（二）：telnet 操作 memcached 中的数据
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装_memcached_以及_它对应的php扩展模块"><span class="toc-number">1.</span> <span class="toc-text">安装 memcached 以及 它对应的php扩展模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检查安装是否成功"><span class="toc-number">2.</span> <span class="toc-text">检查安装是否成功</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试_memcached_是否可以缓存数据"><span class="toc-number">3.</span> <span class="toc-text">测试 memcached 是否可以缓存数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试_memcached_能否缓存数据库中得到的数据"><span class="toc-number">4.</span> <span class="toc-text">测试 memcached 能否缓存数据库中得到的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="android">android<sup>1</sup></a></li>
+		
+			<li><a href="/categories/jekyll/" title="jekyll">jekyll<sup>2</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>3</sup></a></li>
+		
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/categories/memcache/" title="memcache">memcache<sup>3</sup></a></li>
+		
+			<li><a href="/categories/mongodb/" title="mongodb">mongodb<sup>5</sup></a></li>
+		
+			<li><a href="/categories/others/" title="others">others<sup>1</sup></a></li>
+		
+			<li><a href="/categories/php/" title="php">php<sup>1</sup></a></li>
+		
+			<li><a href="/categories/ubuntu/" title="ubuntu">ubuntu<sup>5</sup></a></li>
+		
+			<li><a href="/categories/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/categories/vim/" title="vim">vim<sup>1</sup></a></li>
+		
+			<li><a href="/categories/vps/" title="vps">vps<sup>1</sup></a></li>
+		
+			<li><a href="/categories/web/" title="web">web<sup>3</sup></a></li>
+		
+			<li><a href="/categories/正则/" title="正则">正则<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CDN/" title="CDN">CDN<sup>1</sup></a></li>
+		
+			<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arch/" title="arch">arch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/dropbox/" title="dropbox">dropbox<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/interview/" title="interview">interview<sup>2</sup></a></li>
+		
+			<li><a href="/tags/jekyll/" title="jekyll">jekyll<sup>3</sup></a></li>
+		
+			<li><a href="/tags/js/" title="js">js<sup>3</sup></a></li>
+		
+			<li><a href="/tags/jsonp/" title="jsonp">jsonp<sup>1</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+			<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/tags/memcache/" title="memcache">memcache<sup>3</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>5</sup></a></li>
+		
+			<li><a href="/tags/others/" title="others">others<sup>1</sup></a></li>
+		
+			<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ruby/" title="ruby">ruby<sup>1</sup></a></li>
+		
+			<li><a href="/tags/sublime/" title="sublime">sublime<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>9</sup></a></li>
+		
+			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vim/" title="vim">vim<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://weijinshi.github.io" target="_blank" title="Wei Jinshi">Wei Jinshi</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>

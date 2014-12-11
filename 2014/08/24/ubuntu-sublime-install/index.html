@@ -1,0 +1,531 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Ubuntu安装Sublime Text 3以及中文输入支持 | wjs的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wei Jinshi">
+    
+    <meta name="description" content="编辑器什么的，用得顺手的才是王道，vim之类的会用就行了，平时还是Sublime为主。废话不多说，安装过程很简单，为了省事，ubuntu下我直接使用ppa安装；而中文输入法的处理，则参照网上别人的教程：http://www.360doc.com/content/14/0329/08/13087748">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="wjs的博客" title="wjs的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wjs的博客">wjs的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:weijinshi.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/24/ubuntu-sublime-install/" title="Ubuntu安装Sublime Text 3以及中文输入支持" itemprop="url">Ubuntu安装Sublime Text 3以及中文输入支持</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://weijinshi.github.io" title="Wei Jinshi">Wei Jinshi</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-08-23T16:00:00.000Z" itemprop="datePublished">Aug 24 2014</time>
+    Updated:<time datetime="2014-12-11T16:01:46.000Z" itemprop="dateModified">Dec 12 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装sublime_text_3"><span class="toc-number">1.</span> <span class="toc-text">安装sublime text 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装中文输入法"><span class="toc-number">2.</span> <span class="toc-text">安装中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置sublime_text_3以支持中文输入法"><span class="toc-number">3.</span> <span class="toc-text">配置sublime text 3以支持中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sublime_text_3_package_control"><span class="toc-number">4.</span> <span class="toc-text">Sublime text 3 package control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2014-10-27_更新"><span class="toc-number">5.</span> <span class="toc-text">2014-10-27 更新</span></a></li></ol>
+		</div>
+		
+		<p>编辑器什么的，用得顺手的才是王道，vim之类的会用就行了，平时还是Sublime为主。废话不多说，安装过程很简单，为了省事，ubuntu下我直接使用ppa安装；而中文输入法的处理，则参照网上别人的教程：<br><a href="http://www.360doc.com/content/14/0329/08/13087748_364608018.shtml" target="_blank" rel="external">http://www.360doc.com/content/14/0329/08/13087748_364608018.shtml</a></p>
+<h3 id="安装sublime_text_3">安装sublime text 3</h3>
+<pre><code>sudo <span class="built_in">add</span>-apt-repository <span class="keyword">pp</span><span class="variable">a:webupd8team</span>/sublime-text-<span class="number">3</span>
+sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>
+sudo apt-<span class="built_in">get</span> install sublime-text-installer
+</code></pre><p>2014-08-30更新：<br>sublime text 3 正式版昨天发布了，官网上直接有 deb 包，可以去官网直接下载安装。</p>
+<h3 id="安装中文输入法">安装中文输入法</h3>
+<p>直接到官网下载linux搜狗拼音输入法<br><a href="http://pinyin.sogou.com/linux/" target="_blank" rel="external">http://pinyin.sogou.com/linux/</a></p>
+<h3 id="配置sublime_text_3以支持中文输入法">配置sublime text 3以支持中文输入法</h3>
+<p>1.保存一下代码到文件sublime-imfix.c</p>
+<pre><code><span class="comment">/*
+ * sublime-imfix.c
+ * Use LD_PRELOAD to interpose some function to fix sublime input method support for linux.
+ * By Cjacker Huang &lt;jianzhong.huang at i-soft.com.cn&gt; *
+ *
+ * gcc -shared -o libsublime-imfix.so sublime_imfix.c  `pkg-config --libs --cflags gtk+-2.0` -fPIC
+ * LD_PRELOAD=./libsublime-imfix.so sublime_text
+ */</span>
+#include &lt;gtk/gtk.h&gt;
+#include &lt;gdk/gdkx.h&gt;
+
+typedef GdkSegment GdkRegionBox;
+
+<span class="keyword">struct</span> <span class="number">_</span>GdkRegion
+{
+    long size;
+    long numRects;
+    GdkRegionBox *rects;
+    GdkRegionBox extents;
+};
+
+GtkIMContext *local_context;
+
+void
+gdk_region_get_clipbox (<span class="keyword">const</span> GdkRegion *region,
+                        GdkRectangle    *rectangle)
+{
+    g_return_if_fail (region != NULL);
+    g_return_if_fail (rectangle != NULL);
+
+    rectangle-&gt;x = region-&gt;extents.x1;
+    rectangle-&gt;y = region-&gt;extents.y1;
+    rectangle-&gt;width = region-&gt;extents.x2 - region-&gt;extents.x1;
+    rectangle-&gt;height = region-&gt;extents.y2 - region-&gt;extents.y1;
+    GdkRectangle rect;
+    rect.x = rectangle-&gt;x;
+    rect.y = rectangle-&gt;y;
+    rect.width = <span class="number">0</span>;
+    rect.height = rectangle-&gt;height;
+
+    <span class="comment">//The caret width is 2;</span>
+    <span class="comment">//Maybe sometimes we will make a mistake, but for most of the time, it should be the caret.</span>
+    <span class="keyword">if</span> (rectangle-&gt;width == <span class="number">2</span> &amp;&amp; GTK_IS_IM_CONTEXT(local_context)) {
+        gtk_im_context_set_cursor_location(local_context, rectangle);
+    }
+}
+
+<span class="comment">//this is needed, for example, if you input something in file dialog and return back the edit area</span>
+<span class="comment">//context will lost, so here we set it again.</span>
+
+<span class="keyword">static</span> GdkFilterReturn event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer im_context)
+{
+    XEvent *xev = (XEvent *)xevent;
+
+    <span class="keyword">if</span> (xev-&gt;<span class="keyword">type</span> == KeyRelease &amp;&amp; GTK_IS_IM_CONTEXT(im_context)) {
+        GdkWindow *win = g_object_get_data(G_OBJECT(im_context), <span class="string">"window"</span>);
+
+        <span class="keyword">if</span> (GDK_IS_WINDOW(win)) {
+            gtk_im_context_set_client_window(im_context, win);
+        }
+    }
+
+    <span class="keyword">return</span> GDK_FILTER_CONTINUE;
+}
+
+void gtk_im_context_set_client_window (GtkIMContext *context,
+                                       GdkWindow    *window)
+{
+    GtkIMContextClass *klass;
+    g_return_if_fail (GTK_IS_IM_CONTEXT (context));
+    klass = GTK_IM_CONTEXT_GET_CLASS (context);
+
+    <span class="keyword">if</span> (klass-&gt;set_client_window) {
+        klass-&gt;set_client_window (context, window);
+    }
+
+    <span class="keyword">if</span> (!GDK_IS_WINDOW (window)) {
+        <span class="keyword">return</span>;
+    }
+
+    g_object_set_data(G_OBJECT(context), <span class="string">"window"</span>, window);
+    <span class="keyword">int</span> width = gdk_window_get_width(window);
+    <span class="keyword">int</span> height = gdk_window_get_height(window);
+
+    <span class="keyword">if</span> (width != <span class="number">0</span> &amp;&amp; height != <span class="number">0</span>) {
+        gtk_im_context_focus_in(context);
+        local_context = context;
+    }
+
+    gdk_window_add_filter (window, event_filter, context);
+}
+</code></pre><p>2.安装C/C++编译环境和gtk libgtk2.0-dev</p>
+<pre><code>sudo apt-get <span class="operator"><span class="keyword">install</span> build-essential
+sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> libgtk2<span class="number">.0</span>-dev</span>
+</code></pre><p>3.编译成共享库</p>
+<pre><code><span class="comment">gcc</span> <span class="literal">-</span><span class="comment">shared</span> <span class="literal">-</span><span class="comment">o</span> <span class="comment">libsublime</span><span class="literal">-</span><span class="comment">imfix</span><span class="string">.</span><span class="comment">so</span> <span class="comment">sublime</span><span class="literal">-</span><span class="comment">imfix</span><span class="string">.</span><span class="comment">c</span> <span class="comment">`pkg</span><span class="literal">-</span><span class="comment">config</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">libs</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">cflags</span> <span class="comment">gtk</span><span class="literal">+</span><span class="literal">-</span><span class="comment">2</span><span class="string">.</span><span class="comment">0`</span> <span class="literal">-</span><span class="comment">fPIC</span>
+</code></pre><p>4.测试运行</p>
+<pre><code><span class="attribute">LD_PRELOAD</span>=<span class="string">./libsublime-imfix.so subl</span>
+</code></pre><p>5.copy共享库到 /opt/sublime_text 目录下</p>
+<pre><code>sudo <span class="keyword">cp</span> libsublime-imfix.<span class="keyword">so</span> /<span class="keyword">opt</span>/sublime_text/
+</code></pre><p>6.修改 /usr/bin/subl</p>
+<pre><code><span class="built_in">sudo</span> vim /usr/bin/subl
+</code></pre><p>在第一行加入：</p>
+<pre><code>export LD_PRELOAD=/<span class="keyword">opt</span>/sublime_text/libsublime-imfix.<span class="keyword">so</span>
+</code></pre><p>7.修改sublime-text.desktop</p>
+<pre><code>sudo vim <span class="regexp">/usr/</span>share<span class="regexp">/applications/</span>sublime_text.desktop
+</code></pre><p>把原本通过 /opt/sublime_text 执行的地方换成通过 subl 来执行。</p>
+<pre><code><span class="title">[Desktop Entry]</span>
+<span class="setting">Version=<span class="value"><span class="number">1.0</span></span></span>
+<span class="setting">Type=<span class="value">Application</span></span>
+<span class="setting">Name=<span class="value">Sublime Text</span></span>
+<span class="setting">GenericName=<span class="value">Text Editor</span></span>
+<span class="setting">Comment=<span class="value">Sophisticated text editor for code, markup and prose</span></span>
+<span class="setting">Exec=<span class="value">/usr/bin/subl %F</span></span>
+<span class="setting">Terminal=<span class="value"><span class="keyword">false</span></span></span>
+<span class="setting">MimeType=<span class="value">text/plain;</span></span>
+<span class="setting">Icon=<span class="value">sublime-text</span></span>
+<span class="setting">Categories=<span class="value">TextEditor;Development;Utility;</span></span>
+<span class="setting">StartupNotify=<span class="value"><span class="keyword">true</span></span></span>
+<span class="setting">Actions=<span class="value">Window;Document;</span></span>
+
+<span class="setting">X-Desktop-File-Install-Version=<span class="value"><span class="number">0.22</span></span></span>
+
+<span class="title">[Desktop Action Window]</span>
+<span class="setting">Name=<span class="value">New Window</span></span>
+<span class="setting">Exec=<span class="value">/usr/bin/subl -n</span></span>
+<span class="setting">OnlyShowIn=<span class="value">Unity;</span></span>
+
+<span class="title">[Desktop Action Document]</span>
+<span class="setting">Name=<span class="value">New File</span></span>
+<span class="setting">Exec=<span class="value">/usr/bin/subl --command new_file</span></span>
+<span class="setting">OnlyShowIn=<span class="value">Unity;</span></span>
+</code></pre><p>配置过程根据自己机子的安装环境而定，一般没多大问题，有问题再google</p>
+<h3 id="Sublime_text_3_package_control">Sublime text 3 package control</h3>
+<p>懒得每次装都要搜一下那段代码，现在贴到这里，找起来方便。  </p>
+<pre><code>import urllib.request,os,hashlib; h = <span class="string">'7183a2d3e96f11eeadd761d777e62404'</span> + <span class="string">'e330c659d4bb41d3bdf022e94cab3cd0'</span>; pf = <span class="string">'Package Control.sublime-package'</span>; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); <span class="keyword">by</span> = urllib.request.urlopen( <span class="string">'http://sublime.wbond.net/'</span> + pf.<span class="built_in">replace</span>(<span class="string">' '</span>, <span class="string">'%20'</span>)).<span class="built_in">read</span>(); dh = hashlib.sha256(<span class="keyword">by</span>).hexdigest(); print(<span class="string">'Error validating download (got %s instead of %s), please try manual install'</span> % (dh, h)) <span class="keyword">if</span> dh != h <span class="keyword">else</span> <span class="built_in">open</span>(os.path.join( ipp, pf), <span class="string">'wb'</span> ).<span class="built_in">write</span>(<span class="keyword">by</span>)  
+</code></pre><p>2014-10-29 更新<br>上面安装 package control 的代码可能随着版本不同而不同，因此推荐到下面这个网站那里粘贴安装的代码：<a href="https://sublime.wbond.net/installation" target="_blank" rel="external">https://sublime.wbond.net/installation</a></p>
+<hr>
+<h3 id="2014-10-27_更新">2014-10-27 更新</h3>
+<p>sublime text 3 正式版已经推出，可以直接到 <a href="http://www.sublimetext.com/" target="_blank" rel="external">sublime官网</a> 下载 deb包 直接安装，省掉好多事。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ubuntu/">ubuntu</a><a href="/tags/sublime/">sublime</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ubuntu/">ubuntu</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://weijinshi.github.io/2014/08/24/ubuntu-sublime-install/" data-title="Ubuntu安装Sublime Text 3以及中文输入支持 | wjs的博客" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/25/markdown-open-link-in-new-tab/" title="Markdown在新标签页中打开连接">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Markdown在新标签页中打开连接</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/24/mongodb-learning-01/"  title="Mongodb学习笔记（一）：基本概念">
+ <strong>NEXT:</strong><br/> 
+ <span>Mongodb学习笔记（一）：基本概念
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装sublime_text_3"><span class="toc-number">1.</span> <span class="toc-text">安装sublime text 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装中文输入法"><span class="toc-number">2.</span> <span class="toc-text">安装中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置sublime_text_3以支持中文输入法"><span class="toc-number">3.</span> <span class="toc-text">配置sublime text 3以支持中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sublime_text_3_package_control"><span class="toc-number">4.</span> <span class="toc-text">Sublime text 3 package control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2014-10-27_更新"><span class="toc-number">5.</span> <span class="toc-text">2014-10-27 更新</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="android">android<sup>1</sup></a></li>
+		
+			<li><a href="/categories/jekyll/" title="jekyll">jekyll<sup>2</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>3</sup></a></li>
+		
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/categories/memcache/" title="memcache">memcache<sup>3</sup></a></li>
+		
+			<li><a href="/categories/mongodb/" title="mongodb">mongodb<sup>5</sup></a></li>
+		
+			<li><a href="/categories/others/" title="others">others<sup>1</sup></a></li>
+		
+			<li><a href="/categories/php/" title="php">php<sup>1</sup></a></li>
+		
+			<li><a href="/categories/ubuntu/" title="ubuntu">ubuntu<sup>5</sup></a></li>
+		
+			<li><a href="/categories/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/categories/vim/" title="vim">vim<sup>1</sup></a></li>
+		
+			<li><a href="/categories/vps/" title="vps">vps<sup>1</sup></a></li>
+		
+			<li><a href="/categories/web/" title="web">web<sup>3</sup></a></li>
+		
+			<li><a href="/categories/正则/" title="正则">正则<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CDN/" title="CDN">CDN<sup>1</sup></a></li>
+		
+			<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arch/" title="arch">arch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/dropbox/" title="dropbox">dropbox<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/interview/" title="interview">interview<sup>2</sup></a></li>
+		
+			<li><a href="/tags/jekyll/" title="jekyll">jekyll<sup>3</sup></a></li>
+		
+			<li><a href="/tags/js/" title="js">js<sup>3</sup></a></li>
+		
+			<li><a href="/tags/jsonp/" title="jsonp">jsonp<sup>1</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+			<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/tags/memcache/" title="memcache">memcache<sup>3</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>5</sup></a></li>
+		
+			<li><a href="/tags/others/" title="others">others<sup>1</sup></a></li>
+		
+			<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ruby/" title="ruby">ruby<sup>1</sup></a></li>
+		
+			<li><a href="/tags/sublime/" title="sublime">sublime<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>9</sup></a></li>
+		
+			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vim/" title="vim">vim<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://weijinshi.github.io" target="_blank" title="Wei Jinshi">Wei Jinshi</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>

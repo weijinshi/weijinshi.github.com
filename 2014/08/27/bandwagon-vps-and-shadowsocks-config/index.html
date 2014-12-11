@@ -1,0 +1,403 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Bandwagonhost VPS + Shadowsocks | wjs的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wei Jinshi">
+    
+    <meta name="description" content="今年五六月份开始google就被封了，虽然自己平时用goagent影响不太大，但是我的N7在收到4.4.4更新之后，一直无法下载，我又不想root，于是想整一个vpn。但是发现国内的各种梯子对我开说都还挺贵的，于是就想买一个便宜的vps来自己搭一个vpn，主要给自己的移动端翻墙用，于是就有了这篇博客">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="wjs的博客" title="wjs的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wjs的博客">wjs的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:weijinshi.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/27/bandwagon-vps-and-shadowsocks-config/" title="Bandwagonhost VPS + Shadowsocks" itemprop="url">Bandwagonhost VPS + Shadowsocks</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://weijinshi.github.io" title="Wei Jinshi">Wei Jinshi</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-08-26T16:00:00.000Z" itemprop="datePublished">Aug 27 2014</time>
+    Updated:<time datetime="2014-12-11T16:01:46.000Z" itemprop="dateModified">Dec 12 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#选择vps"><span class="toc-number">1.</span> <span class="toc-text">选择vps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装配置_shadowsocks"><span class="toc-number">2.</span> <span class="toc-text">安装配置 shadowsocks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#还有待解决的问题"><span class="toc-number">3.</span> <span class="toc-text">还有待解决的问题</span></a></li></ol>
+		</div>
+		
+		<p>今年五六月份开始google就被封了，虽然自己平时用goagent影响不太大，但是我的N7在收到4.4.4更新之后，一直无法下载，我又不想root，于是想整一个vpn。但是发现国内的各种梯子对我开说都还挺贵的，于是就想买一个便宜的vps来自己搭一个vpn，主要给自己的移动端翻墙用，于是就有了这篇博客。   </p>
+<h3 id="选择vps">选择vps</h3>
+<p>最近常混 v2ex，上边牛人很多，找了 VPS 相关的节点看了看，大多都推荐 DO 跟 linone，但我就是单纯为了移动端翻墙建vpn，没必要整那个贵的，所以就先试了搬瓦工的，便宜的vps更推荐Ramnode和Hostigation，据说速度比较好，但是最便宜的套餐也是15-20刀/年，所以我还是选择了搬瓦工。  </p>
+<ul>
+<li>64M内存 / 1.5G SSD硬盘/ G口 100G流量 / 年付3.99美元<br><a href="http://bandwagonhost.com/aff.php?aff=316&amp;pid=19" target="_blank" rel="external">http://bandwagonhost.com/aff.php?aff=316&amp;pid=19</a>  </li>
+<li>96M内存 / 2.0G SSD硬盘/ G口 200G流量 / 年付4.99美元<br><a href="http://bandwagonhost.com/aff.php?aff=316&amp;pid=20" target="_blank" rel="external">http://bandwagonhost.com/aff.php?aff=316&amp;pid=20</a>  </li>
+<li>128M内存 / 3G SSD硬盘/ G口 300G流量 / 年付5.99美元<br><a href="http://bandwagonhost.com/aff.php?aff=316&amp;pid=21" target="_blank" rel="external">http://bandwagonhost.com/aff.php?aff=316&amp;pid=21</a>  </li>
+</ul>
+<p>我选择了第三个，平均一个月也就3块rmb，但是在购买的时候折腾了好久。显示注册paypal，结果不小心注册成果paypal贝宝，然后付不了款，浪费我一个邮箱，于是只能用另一个邮箱注册了paypal国际账户，这个可以用银联支付，所以付完款之后机子就很快就分配好了。这个也算是自己的第一次海淘吧，虽然之前应ebay的同学之邀，注册了一个paypal账户，但是都没用过，然后连正好都忘记了= =   </p>
+<p>主机下来之后，来回重装了好几个系统来尝试搭openvpn，但都是连不上。最后试了 shadowsocks ，手机成功连上了。  </p>
+<h3 id="安装配置_shadowsocks">安装配置 shadowsocks</h3>
+<p>v2ex上也有好多人用shadowsocks，遇到的问题也基本都可以再上面找到。<br>我最后安装的系统是 centos 6 x86，然后跟着教程一步步弄，教程完全按照shadowsocks的github安装指南操作：<br><a href="https://github.com/clowwindy/shadowsocks/wiki/Shadowsocks-使用说明" target="_blank" rel="external">Shadowsocks-使用说明</a><br>然后为了让其可以再后台运行，用 Supervisor 运行 Shadowsocks，参考这个教程：<br><a href="https://github.com/clowwindy/shadowsocks/wiki/用-Supervisor-运行-Shadowsocks" target="_blank" rel="external">用-Supervisor-运行-Shadowsocks</a>  </p>
+<ul>
+<li>安卓手机上安装 shadowsocks（影梭），填一下配置信息，搞定！  </li>
+<li>Chrome插件 Switchysharp 的设置：<a href="http://switchysharp.com/setting.html" target="_blank" rel="external">Switchysharp 配置</a>，直接下载 <code>.bak</code> 文件，然后按照教程配置。</li>
+<li>Ubuntu 下全局代理的设置（其实也并非全局），通过使用 <a href="http://proxychains.sourceforge.net/" target="_blank" rel="external">proxychains</a>，具体配置方法：<a href="https://github.com/clowwindy/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools" target="_blank" rel="external">Using Shadowsocks with Command Line Tools</a>  </li>
+</ul>
+<h3 id="还有待解决的问题">还有待解决的问题</h3>
+<ul>
+<li>我也是第一次使用vps，很多东西都还不太清楚，比如之前整openvpn为什么一直连不上，后面要好好研究一下。  </li>
+<li>还有我在公司的 win7 下用 putty ssh连到 vps竟然连不上。用它管理界面上的那个 shell 简直太恶心了，之后一定要尝试连一下。</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/vps/">vps</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/vps/">vps</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://weijinshi.github.io/2014/08/27/bandwagon-vps-and-shadowsocks-config/" data-title="Bandwagonhost VPS + Shadowsocks | wjs的博客" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/29/mongodb-learning-02/" title="Mongodb学习笔记（二）：基本操作">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Mongodb学习笔记（二）：基本操作</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/25/ubuntu-save-brightness/"  title="Ubuntu保存屏幕亮度">
+ <strong>NEXT:</strong><br/> 
+ <span>Ubuntu保存屏幕亮度
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#选择vps"><span class="toc-number">1.</span> <span class="toc-text">选择vps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装配置_shadowsocks"><span class="toc-number">2.</span> <span class="toc-text">安装配置 shadowsocks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#还有待解决的问题"><span class="toc-number">3.</span> <span class="toc-text">还有待解决的问题</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="android">android<sup>1</sup></a></li>
+		
+			<li><a href="/categories/jekyll/" title="jekyll">jekyll<sup>2</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>3</sup></a></li>
+		
+			<li><a href="/categories/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/categories/memcache/" title="memcache">memcache<sup>3</sup></a></li>
+		
+			<li><a href="/categories/mongodb/" title="mongodb">mongodb<sup>5</sup></a></li>
+		
+			<li><a href="/categories/others/" title="others">others<sup>1</sup></a></li>
+		
+			<li><a href="/categories/php/" title="php">php<sup>1</sup></a></li>
+		
+			<li><a href="/categories/ubuntu/" title="ubuntu">ubuntu<sup>5</sup></a></li>
+		
+			<li><a href="/categories/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/categories/vim/" title="vim">vim<sup>1</sup></a></li>
+		
+			<li><a href="/categories/vps/" title="vps">vps<sup>1</sup></a></li>
+		
+			<li><a href="/categories/web/" title="web">web<sup>3</sup></a></li>
+		
+			<li><a href="/categories/正则/" title="正则">正则<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CDN/" title="CDN">CDN<sup>1</sup></a></li>
+		
+			<li><a href="/tags/android/" title="android">android<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arch/" title="arch">arch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/dropbox/" title="dropbox">dropbox<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/interview/" title="interview">interview<sup>2</sup></a></li>
+		
+			<li><a href="/tags/jekyll/" title="jekyll">jekyll<sup>3</sup></a></li>
+		
+			<li><a href="/tags/js/" title="js">js<sup>3</sup></a></li>
+		
+			<li><a href="/tags/jsonp/" title="jsonp">jsonp<sup>1</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
+		
+			<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/tags/memcache/" title="memcache">memcache<sup>3</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>5</sup></a></li>
+		
+			<li><a href="/tags/others/" title="others">others<sup>1</sup></a></li>
+		
+			<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ruby/" title="ruby">ruby<sup>1</sup></a></li>
+		
+			<li><a href="/tags/sublime/" title="sublime">sublime<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>9</sup></a></li>
+		
+			<li><a href="/tags/vagrant/" title="vagrant">vagrant<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vim/" title="vim">vim<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://weijinshi.github.io" target="_blank" title="Wei Jinshi">Wei Jinshi</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
