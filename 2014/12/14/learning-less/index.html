@@ -4,15 +4,18 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Mongodb学习笔记（五）：聚合函数 | wjs的博客</title>
+    <title>less笔记 | wjs的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wei Jinshi">
     
-    <meta name="description" content="count
-distinct， db.runCommand({“distinct”: “people”, “key”: “age”})
-group，例子：每天有多条股票的记录，每个记录有一个时间戳，现在要取出每一天最后的一条记录。用 group 对天分组，然后再取出每组中包含最新时间戳的记录。  
-">
+    <meta name="description" content="这周末看了一下慕课网的less视频，稍微记一下，虽然自己平时不用 = =  
+
+注释 // comment 或者 /* comment */
+变量 @color-bg: #fff
+混合 一个class里面可以直接使用另一个class。 带参数的混合。
+
+12345678910111213141516">
     
     
     
@@ -69,15 +72,15 @@ group，例子：每天有多条股票的记录，每个记录有一个时间戳
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/09/08/mongodb-learning-05/" title="Mongodb学习笔记（五）：聚合函数" itemprop="url">Mongodb学习笔记（五）：聚合函数</a>
+      <a href="/2014/12/14/learning-less/" title="less笔记" itemprop="url">less笔记</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://weijinshi.github.io" title="Wei Jinshi">Wei Jinshi</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-09-07T16:00:00.000Z" itemprop="datePublished">Sep 8 2014</time>
-    Updated:<time datetime="2014-12-11T16:01:46.000Z" itemprop="dateModified">Dec 12 2014</time>
+    <time datetime="2014-12-14T15:13:08.000Z" itemprop="datePublished">Dec 14 2014</time>
+    Updated:<time datetime="2014-12-14T15:38:18.000Z" itemprop="dateModified">Dec 14 2014</time>
     
   </p>
 </header>
@@ -89,48 +92,38 @@ group，例子：每天有多条股票的记录，每个记录有一个时间戳
 		
 		</div>
 		
-		<ul>
-<li>count</li>
-<li>distinct， db.runCommand({“distinct”: “people”, “key”: “age”})</li>
-<li><p>group，例子：每天有多条股票的记录，每个记录有一个时间戳，现在要取出每一天最后的一条记录。用 group 对天分组，然后再取出每组中包含最新时间戳的记录。  </p>
-<p>  db.runCommand({“group”: {</p>
-<pre><code>  <span class="string">"ns"</span>: <span class="string">"stocks"</span>,
-  <span class="string">"key"</span>: <span class="string">"day"</span>,
-  <span class="string">"initial"</span>: {<span class="string">"time"</span>: <span class="number">0</span>},
-  <span class="string">"<span class="variable">$reduce</span>"</span>: function (doc, prev) {
-      <span class="keyword">if</span> (doc.<span class="keyword">time</span> &gt; prev.<span class="keyword">time</span>) {
-          prev.price = doc.price;
-          prev.<span class="keyword">time</span> = doc.<span class="keyword">time</span>;
-      }
-  }
-</code></pre><p>  }})</p>
-</li>
-<li><p>group 还有好多参数， condition, count, retval, keys, ok， finalizer 等</p>
-</li>
-<li>完成器 finalizer，用来精简返回结果。</li>
-<li>将函数作为键使用， $keyf </li>
-<li>MapReduce，好难没看懂。。。。</li>
-</ul>
-  
+		<p>这周末看了一下<a href="http://www.imooc.com/learn/102" target="_blank" rel="external">慕课网的less视频</a>，稍微记一下，虽然自己平时不用 = =  </p>
+<ol>
+<li>注释 <code>// comment</code> 或者 <code>/* comment */</code></li>
+<li>变量 <code>@color-bg: #fff</code></li>
+<li>混合 一个class里面可以直接使用另一个class。 带参数的混合。</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">    <span class="comment">// 不带参数的，直接调用其他class</span></div><div class="line">    <span class="class">.class_a</span> {</div><div class="line">      <span class="attribute">width</span><span class="value">: <span class="number">100px</span>;</span></div><div class="line">    }</div><div class="line">    <span class="class">.class_b</span> {</div><div class="line">      <span class="class">.class_a</span>;</div><div class="line">      <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span></div><div class="line">    }</div><div class="line">    <span class="comment">// 带参数的混合，没有默认值的时候，调用必须要传参数</span></div><div class="line">    <span class="class">.class_c</span>(<span class="at_rule">@w) {</span></div><div class="line">      <span class="attribute">width</span><span class="value">: @w;</span></div><div class="line">    }</div><div class="line">    <span class="class">.class_d</span> {</div><div class="line">      <span class="class">.class_c</span>(30px);</div><div class="line">      <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span></div><div class="line">    }</div><div class="line">    <span class="comment">// 带默认值的混合，调用可以不用带参数</span></div><div class="line">    <span class="class">.class_c</span>(<span class="at_rule">@w:<span class="number">100px</span>) {</span></div><div class="line">      <span class="attribute">width</span><span class="value">: @w;</span></div><div class="line">    }</div><div class="line">    <span class="class">.class_d</span> {</div><div class="line">      <span class="class">.class_c</span>();</div><div class="line">      <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span></div><div class="line">    }</div><div class="line"></div><div class="line">4. 匹配模式，类似if else</div></pre></td></tr></table></figure>
+
+<pre><code><span class="class">.fl</span>(<span class="attribute">left</span>) {
+  <span class="attribute">float</span><span class="value">: left;</span>
+}
+<span class="class">.fl</span>(<span class="attribute">right</span>) {
+  <span class="attribute">float</span><span class="value">: right;</span>
+}
+<span class="comment">// 始终回匹配到的</span>
+<span class="class">.fl</span>(<span class="at_rule">@_) {</span>
+  <span class="attribute">overflow</span><span class="value">: hidden;</span>
+}
+
+<span class="class">.class_a</span> {
+  <span class="class">.fl</span>(<span class="attribute">left</span>);
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/mongodb/">mongodb</a>
-  </div>
-
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/mongodb/">mongodb</a>
-</div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://weijinshi.github.io/2014/09/08/mongodb-learning-05/" data-title="Mongodb学习笔记（五）：聚合函数 | wjs的博客" data-tsina="null" class="share clearfix">
+  <div data-url="http://weijinshi.github.io/2014/12/14/learning-less/" data-title="less笔记 | wjs的博客" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -139,19 +132,11 @@ group，例子：每天有多条股票的记录，每个记录有一个时间戳
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/09/08/learning-memcache-01/" title="Memcache 学习笔记（一）：基本概念">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Memcache 学习笔记（一）：基本概念</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/09/06/mongodb-learning-04/"  title="Mongodb学习笔记（四）：索引">
+<a href="/2014/12/11/jekyll-to-hexo/"  title="jekyll-to-hexo">
  <strong>NEXT:</strong><br/> 
- <span>Mongodb学习笔记（四）：索引
+ <span>jekyll-to-hexo
 </span>
 </a>
 </div>
