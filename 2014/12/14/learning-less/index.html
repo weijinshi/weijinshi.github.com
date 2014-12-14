@@ -13,9 +13,8 @@
 
 注释 // comment 或者 /* comment */
 变量 @color-bg: #fff
-混合 一个class里面可以直接使用另一个class。 带参数的混合。
-
-12345678910111213141516">
+混合 一个class里面可以直接使用另一个class。 带参数的混合。   
+ // 不带参数的，直接调用其他class">
     
     
     
@@ -80,7 +79,7 @@
     </p>
   <p class="article-time">
     <time datetime="2014-12-14T15:13:08.000Z" itemprop="datePublished">Dec 14 2014</time>
-    Updated:<time datetime="2014-12-14T15:38:18.000Z" itemprop="dateModified">Dec 14 2014</time>
+    Updated:<time datetime="2014-12-14T15:48:04.000Z" itemprop="dateModified">Dec 14 2014</time>
     
   </p>
 </header>
@@ -96,25 +95,50 @@
 <ol>
 <li>注释 <code>// comment</code> 或者 <code>/* comment */</code></li>
 <li>变量 <code>@color-bg: #fff</code></li>
-<li>混合 一个class里面可以直接使用另一个class。 带参数的混合。</li>
+<li><p>混合 一个class里面可以直接使用另一个class。 带参数的混合。   </p>
+<pre><code> <span class="comment">// 不带参数的，直接调用其他class</span>
+ <span class="class">.class_a</span> {
+   <span class="attribute">width</span><span class="value">: <span class="number">100px</span>;</span>
+ }
+ <span class="class">.class_b</span> {
+   <span class="class">.class_a</span>;
+   <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span>
+ }
+ <span class="comment">// 带参数的混合，没有默认值的时候，调用必须要传参数</span>
+ <span class="class">.class_c</span>(<span class="at_rule">@w) {</span>
+   <span class="attribute">width</span><span class="value">: @w;</span>
+ }
+ <span class="class">.class_d</span> {
+   <span class="class">.class_c</span>(30px);
+   <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span>
+ }
+ <span class="comment">// 带默认值的混合，调用可以不用带参数</span>
+ <span class="class">.class_c</span>(<span class="at_rule">@w:<span class="number">100px</span>) {</span>
+   <span class="attribute">width</span><span class="value">: @w;</span>
+ }
+ <span class="class">.class_d</span> {
+   <span class="class">.class_c</span>();
+   <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span>
+ } 
+</code></pre></li>
+<li><p>匹配模式，类似if else  </p>
+<pre><code> <span class="class">.fl</span>(<span class="attribute">left</span>) {
+   <span class="attribute">float</span><span class="value">: left;</span>
+ }
+ <span class="class">.fl</span>(<span class="attribute">right</span>) {
+   <span class="attribute">float</span><span class="value">: right;</span>
+ }
+ <span class="comment">// 始终回匹配到的</span>
+ <span class="class">.fl</span>(<span class="at_rule">@_) {</span>
+   <span class="attribute">overflow</span><span class="value">: hidden;</span>
+ }
+ <span class="comment">// 调用</span>
+ <span class="class">.class_a</span> {
+   <span class="class">.fl</span>(<span class="attribute">left</span>);
+ }
+</code></pre></li>
 </ol>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">    <span class="comment">// 不带参数的，直接调用其他class</span></div><div class="line">    <span class="class">.class_a</span> {</div><div class="line">      <span class="attribute">width</span><span class="value">: <span class="number">100px</span>;</span></div><div class="line">    }</div><div class="line">    <span class="class">.class_b</span> {</div><div class="line">      <span class="class">.class_a</span>;</div><div class="line">      <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span></div><div class="line">    }</div><div class="line">    <span class="comment">// 带参数的混合，没有默认值的时候，调用必须要传参数</span></div><div class="line">    <span class="class">.class_c</span>(<span class="at_rule">@w) {</span></div><div class="line">      <span class="attribute">width</span><span class="value">: @w;</span></div><div class="line">    }</div><div class="line">    <span class="class">.class_d</span> {</div><div class="line">      <span class="class">.class_c</span>(30px);</div><div class="line">      <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span></div><div class="line">    }</div><div class="line">    <span class="comment">// 带默认值的混合，调用可以不用带参数</span></div><div class="line">    <span class="class">.class_c</span>(<span class="at_rule">@w:<span class="number">100px</span>) {</span></div><div class="line">      <span class="attribute">width</span><span class="value">: @w;</span></div><div class="line">    }</div><div class="line">    <span class="class">.class_d</span> {</div><div class="line">      <span class="class">.class_c</span>();</div><div class="line">      <span class="attribute">height</span><span class="value">: <span class="number">50px</span>;</span></div><div class="line">    }</div><div class="line"></div><div class="line">4. 匹配模式，类似if else</div></pre></td></tr></table></figure>
-
-<pre><code><span class="class">.fl</span>(<span class="attribute">left</span>) {
-  <span class="attribute">float</span><span class="value">: left;</span>
-}
-<span class="class">.fl</span>(<span class="attribute">right</span>) {
-  <span class="attribute">float</span><span class="value">: right;</span>
-}
-<span class="comment">// 始终回匹配到的</span>
-<span class="class">.fl</span>(<span class="at_rule">@_) {</span>
-  <span class="attribute">overflow</span><span class="value">: hidden;</span>
-}
-
-<span class="class">.class_a</span> {
-  <span class="class">.fl</span>(<span class="attribute">left</span>);
-}
-</code></pre>  
+  
 	</div>
 		<footer class="article-footer clearfix">
 
