@@ -79,7 +79,7 @@
     </p>
   <p class="article-time">
     <time datetime="2014-12-14T15:13:08.000Z" itemprop="datePublished">Dec 14 2014</time>
-    Updated:<time datetime="2014-12-14T15:48:04.000Z" itemprop="dateModified">Dec 14 2014</time>
+    Updated:<time datetime="2014-12-15T14:27:52.000Z" itemprop="dateModified">Dec 15 2014</time>
     
   </p>
 </header>
@@ -135,6 +135,49 @@
  <span class="comment">// 调用</span>
  <span class="class">.class_a</span> {
    <span class="class">.fl</span>(<span class="attribute">left</span>);
+ }
+</code></pre></li>
+<li><p>运算</p>
+<pre><code> <span class="comment">// 有单位的属性，只要有一个带单位就可以了</span>
+ <span class="annotation">@test</span> = <span class="number">300</span>px
+ .class_a {
+   width = (<span class="annotation">@test</span> + <span class="number">20</span>) + <span class="number">100</span>px;
+   height = <span class="annotation">@test</span> / <span class="number">2</span>;
+ }
+</code></pre></li>
+<li><p>嵌套</p>
+<pre><code> <span class="class">.class-a</span> {
+   <span class="attribute">float</span><span class="value">: left;</span>
+   <span class="tag">a</span> {
+     <span class="attribute">display</span><span class="value">: block;</span>
+
+     <span class="comment">// &amp; 代表它的上一层，相当于和上一层直接拼接</span>
+     &amp;<span class="pseudo">:hover</span> {
+
+     }
+   }
+
+   <span class="comment">// 这个就相当于 .class-a-b</span>
+   &amp;-<span class="tag">b</span> {
+
+   }
+ }
+</code></pre></li>
+<li><p>@arguments </p>
+</li>
+<li>避免编译, !important<pre><code> <span class="attribute">width</span><span class="value">: ~<span class="string">'calc(300px-10px)'</span>;</span>
+ <span class="comment">// !important 调用混合的时候，相当于里面每条语句都加上了!important</span>
+ <span class="class">.test</span>(<span class="at_rule">@w:<span class="number">100px</span>) {</span>
+   <span class="attribute">float</span><span class="value">: left;</span>
+   <span class="attribute">width</span><span class="value">: @w;</span>
+ }
+ <span class="class">.class-a</span> {
+   <span class="class">.test</span>() !important;
+ }
+ <span class="comment">// 相当于</span>
+ <span class="class">.class-a</span> {
+   <span class="attribute">float</span><span class="value">: left <span class="important">!important</span>;</span>
+   <span class="attribute">width</span><span class="value">: <span class="number">100px</span> <span class="important">!important</span>;</span>
  }
 </code></pre></li>
 </ol>
