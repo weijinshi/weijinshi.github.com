@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Ubuntu 14.04 下安装使用 vagrant | wjs的博客</title>
+    <title>最简单的jquery页内锚点平滑跳转代码 | wjs的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wei Jinshi">
     
-    <meta name="description" content="虽然xubuntu已经作为主系统，但是配开发环境之后，开机就变得好慢，最近开始弄php，不想在真机上直接搭lamp，于是就想用一下vagrant，之前在win7上装过，挺好用的。网上搜了一下，有一篇博客写的很详细：vagrant使用简介   
-安装
-先安装 virtualbox，然后到 vagran">
+    <meta name="description" content="看到一些网站的页内跳转做了平滑滚动的处理，觉得不错，搜了一下实现方法，发现这篇文章： 最简单的jquery页内锚点平滑跳转代码,转过来记一下。  
+$(&quot;html,body&quot;).animate({scrollTop: $(&quot;#elementid&quot;).offset().top}, 1000);
+自己再">
     
     
     
@@ -68,15 +68,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/10/27/using-vagrant-on-ubuntu/" title="Ubuntu 14.04 下安装使用 vagrant" itemprop="url">Ubuntu 14.04 下安装使用 vagrant</a>
+      <a href="/2014/12/18/jquery-jump-anchor/" title="最简单的jquery页内锚点平滑跳转代码" itemprop="url">最简单的jquery页内锚点平滑跳转代码</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://weijinshi.github.io" title="Wei Jinshi">Wei Jinshi</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-10-26T16:00:00.000Z" itemprop="datePublished">Oct 27 2014</time>
-    Updated:<time datetime="2014-12-11T16:01:46.000Z" itemprop="dateModified">Dec 12 2014</time>
+    <time datetime="2014-12-18T13:27:32.000Z" itemprop="datePublished">Dec 18 2014</time>
+    Updated:<time datetime="2014-12-18T13:52:08.000Z" itemprop="dateModified">Dec 18 2014</time>
     
   </p>
 </header>
@@ -85,50 +85,40 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-number">2.</span> <span class="toc-text">常用命令</span></a></li></ol>
+		
 		</div>
 		
-		<p>虽然xubuntu已经作为主系统，但是配开发环境之后，开机就变得好慢，最近开始弄php，不想在真机上直接搭lamp，于是就想用一下vagrant，之前在win7上装过，挺好用的。网上搜了一下，有一篇博客写的很详细：<a href="http://xuclv.blog.51cto.com/5503169/1239250" target="_blank" rel="external">vagrant使用简介</a>   </p>
-<h3 id="安装">安装</h3>
-<p>先安装 virtualbox，然后到 <a href="http://www.vagrantup.com/" target="_blank" rel="external">vagrant官网</a> 下载对应的linux版本安装。<br>之后到 <a href="http://www.vagrantbox.es/" target="_blank" rel="external">http://www.vagrantbox.es/</a> 下载已经做成vagrant box的虚拟机镜像。</p>
-<p>然后建一个 vagrant 的工作目录（比如 <code>~/vagrant</code>），把下载的虚拟机镜像放到该目录下，然后执行：  </p>
-<pre><code>vagrant <span class="keyword">box</span> add base XXXX.<span class="keyword">box</span>
-</code></pre><p>base 表示指定默认的box，也可以为box指定名称，比如 centos63 ，使用base时，之后可以直接使用 vagrant init 进行初始化，如果自行指定名称，则初始化的时候需要指定box的名称。之后执行：</p>
-<pre><code>vagrant <span class="keyword">init</span>
-</code></pre><p>就会在该目录下生成对应的 Vagrantfile。可以直接修改 Vagrantfile 里的配置。<br>注意： linux下，virtualbox 不允许把host小于 1024 的端口映射到虚拟机中，因此下面这样配置是无效的：</p>
-<pre><code>config.vm.network <span class="symbol">:forwarded_port</span>, <span class="symbol">guest:</span> <span class="number">80</span>, <span class="symbol">host:</span> <span class="number">8080</span>
-</code></pre><p>这个问题可以在stackoverflow上找到答案。  </p>
-<h3 id="常用命令">常用命令</h3>
-<pre><code><span class="variable">$ </span>vagrant box add <span class="constant">NAME</span> <span class="constant">URL</span>    <span class="comment">#添加一个box</span>
-<span class="variable">$ </span>vagrant box list            <span class="comment">#查看本地已添加的box</span>
-<span class="variable">$ </span>vagrant box remove <span class="constant">NAME</span> virtualbox <span class="comment">#删除本地已添加的box，如若是版本1.0.x，执行$ vagrant box remove  NAME</span>
-<span class="variable">$ </span>vagrant init <span class="constant">NAME</span>          <span class="comment">#初始化，实质应是创建Vagrantfile文件</span>
-<span class="variable">$ </span>vagrant up                   <span class="comment">#启动虚拟机</span>
-<span class="variable">$ </span>vagrant halt                 <span class="comment">#关闭虚拟机</span>
-<span class="variable">$ </span>vagrant destroy            <span class="comment">#销毁虚拟机</span>
-<span class="variable">$ </span>vagrant reload             <span class="comment">#重启虚拟机</span>
-<span class="variable">$ </span>vagrant package            <span class="comment">#当前正在运行的VirtualBox虚拟环境打包成一个可重复使用的box</span>
-<span class="variable">$ </span>vagrant ssh                 <span class="comment">#进入虚拟环境</span>
+		<p>看到一些网站的页内跳转做了平滑滚动的处理，觉得不错，搜了一下实现方法，发现这篇文章： <a href="http://www.solagirl.net/jquery-jump-through-anchor.html" target="_blank" rel="external">最简单的jquery页内锚点平滑跳转代码</a>,转过来记一下。  </p>
+<pre><code>$("<span class="tag">html</span>,<span class="tag">body</span>")<span class="class">.animate</span>(<span class="rules">{<span class="rule"><span class="attribute">scrollTop</span>:<span class="value"> $(<span class="string">"#elementid"</span>).<span class="function">offset</span>().top</span></span></span>}, 1000);
+</code></pre><p>自己再实际写的时候，因为 点击跳转链接的时候，跳转链接上使用了 <code>href=&quot;#elementid&quot;</code>，这个再chrome会有页面跳动的现象，然后才平滑滚动到锚点处。这个以前也遇到过，把 href 去掉用其他属性替代就好了。  </p>
+<pre><code>&lt;ul class=<span class="string">"nav navbar-nav"</span>&gt;
+  &lt;li class=<span class="string">"active"</span>&gt;&lt;a target=<span class="string">"#page1"</span> class=<span class="string">""</span>&gt;page1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a target=<span class="string">"#page2"</span> class=<span class="string">""</span>&gt;page2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a target=<span class="string">"#page3"</span> class=<span class="string">""</span>&gt;page3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+$(<span class="string">'.navbar-nav li a'</span>).click(function(<span class="keyword">event</span>) {
+  <span class="keyword">switch</span> ($(<span class="keyword">this</span>).attr(<span class="string">'target'</span>)) {
+    <span class="keyword">case</span> <span class="string">'#page1'</span>: $(<span class="string">"body"</span>).animate({scrollTop: $(<span class="string">"#page1"</span>).offset().top}, <span class="number">700</span>); <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">'#page2'</span>: $(<span class="string">"body"</span>).animate({scrollTop: $(<span class="string">"#page2"</span>).offset().top}, <span class="number">700</span>); <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">'#page3'</span>: $(<span class="string">"body"</span>).animate({scrollTop: $(<span class="string">"#page3"</span>).offset().top}, <span class="number">700</span>); <span class="keyword">break</span>;
+  }
+});
 </code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/vagrant/">vagrant</a><a href="/tags/ubuntu/">ubuntu</a>
+  <span></span> <a href="/tags/web/">web</a><a href="/tags/jquery/">jquery</a>
   </div>
 
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/vagrant/">vagrant</a>
-</div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://weijinshi.github.io/2014/10/27/using-vagrant-on-ubuntu/" data-title="Ubuntu 14.04 下安装使用 vagrant | wjs的博客" data-tsina="null" class="share clearfix">
+  <div data-url="http://weijinshi.github.io/2014/12/18/jquery-jump-anchor/" data-title="最简单的jquery页内锚点平滑跳转代码 | wjs的博客" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -137,19 +127,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/10/31/install-jekyll-on-ubuntu/" title="Ubuntu 14.04搭建jekyll博客环境">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Ubuntu 14.04搭建jekyll博客环境</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/10/22/install-and-config-lamp-on-ubuntu/"  title="Ubuntu 14.04安装配置LAMP">
+<a href="/2014/12/14/learning-less/"  title="less笔记">
  <strong>NEXT:</strong><br/> 
- <span>Ubuntu 14.04安装配置LAMP
+ <span>less笔记
 </span>
 </a>
 </div>
@@ -162,7 +144,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-number">2.</span> <span class="toc-text">常用命令</span></a></li></ol>
+  
   </div>
 
 <div id="asidepart">
